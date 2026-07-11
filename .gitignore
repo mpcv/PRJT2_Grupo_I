@@ -1,0 +1,11 @@
+#Cache do python
+__pycache__/
+*.py[cod]
+
+#Bases de dados locais
+*.db
+*.sqlite3
+
+#Pastas de resultados
+Gantt_Charts/
+results/

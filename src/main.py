@@ -17,7 +17,7 @@ def main():
         "10Jobs2.mm": 16,
         "20Jobs1.mm": 42,
         "20Jobs2.mm": 31,
-        "30Jobs1.mm": 29
+        "30Jobs1.mm": 47
     }
 
     base_dir = os.path.dirname(os.path.abspath(__file__))
