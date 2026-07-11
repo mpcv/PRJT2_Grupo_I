@@ -128,4 +128,3 @@ class Solution:
         self.start_times = {}
         self.makespan = 0.0
         self.is_feasible = False
-

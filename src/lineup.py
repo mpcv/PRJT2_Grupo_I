@@ -191,7 +191,3 @@ class ScheduleBuilder:
         solution.makespan = completion_times[self.instance.num_jobs]
         solution.is_feasible = True
         return True
-
-
-
-
