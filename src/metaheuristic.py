@@ -200,6 +200,3 @@ class SimulatedAnnealing:
                 break
         
         return best, history
-        
-
-

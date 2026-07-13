@@ -38,14 +38,14 @@ def save_summary_file(results_list):
     path = os.path.join(results_dir, "Summary_Results.txt")
 
     with open(path, "w", encoding='utf-8') as f:
-        f.write(f"{'Instance':<20}| {'Makespan':<10}| {'BKS':<10}| {'RPD (%)':<10}| {'Runtime (s)':<12}\n")
-        f.write("-" * 70 + "\n")
+        f.write(f"{'Instance':<15}| {'BKS':<6}| {'Mk_P1':<8}| {'RPD_P1(%)':<10}| {'Mk_P2':<8}| {'RPD_P2(%)':<10}| {'Runtime(s)':<10}\n")
+        f.write("-" * 80 + "\n")
 
         for res in results_list:
-            f.write(f"{res['Instance']:<20}| {res['Makespan']:<10}| {res['BKS']:<10}| {res['RPD (%)']:<10}| {res['Runtime (s)']:<12}\n")
+            f.write(f"{res['Instance']:<15}| {res['BKS']:<6}| {res['Mk_P1']:<8}| {res['RPD_P1']:<10}| {res['Mk_P2']:<8}| {res['RPD_P2']:<10}| {res['Runtime (s)']:<10}\n")
 
-        valid_rpds = [float(res['RPD (%)']) for res in results_list if res['RPD (%)'] != "N/A"]
+        valid_rpds = [float(res['RPD_P2']) for res in results_list if res['RPD_P2'] != "N/A"]
         if valid_rpds:
-            avg_rpd = sum(valid_rpds)/len(valid_rpds)
-            f.write("-" * 70 + "\n")
-            f.write(f"{'Média Global':<20}| {'-':<10}| {'-':<10}| {avg_rpd:<10.2f}| {'-':<12}\n")
+            avg_rpd = sum(valid_rpds) / len(valid_rpds)
+            f.write("-" * 80 + "\n")
+            f.write(f"{'Média Global':<15}| {'-':<6}| {'-':<8}| {'-':<10}| {'-':<8}| {avg_rpd:<10.2f}| {'-':<10}\n")
