@@ -3,7 +3,7 @@ import time
 import random
 from data_reader import Instance
 from lineup import ScheduleBuilder
-from data_writer import save_file_for_solution, save_summary_file
+from data_writer import save_file_for_solution, save_summary_file, save_schedule_csv
 from visualizer import generate_gantt_chart
 from tester import Tester
 from metaheuristic import SimulatedAnnealing
@@ -89,9 +89,19 @@ def main():
 
                     print(f"  -> Tempo Total: {temp_exec:.4f}s")
 
-                    #Guarda os txts e gráficos
+                    #Guarda os txts, gráficos e csv
                     save_file_for_solution(best_sa_sol, filename)
                     generate_gantt_chart(best_sa_sol, filename)
+                    termination_reason = "bks_reached" if best_sa_sol.makespan == bks else "time_limit"
+
+                    save_schedule_csv(
+                        solution=best_sa_sol,
+                        filename=filename,
+                        runtime=temp_exec,
+                        algorithm="simulated_annealing",
+                        seed=42,
+                        termination=termination_reason
+                    )
 
                     lista_resultados.append({
                         'Instance': filename,

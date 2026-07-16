@@ -28,6 +28,32 @@ def save_file_for_solution(solution,filename):
 
                 f.write(f"{job:<6} | {mode:<6} | {start:<6} | {end_time:<6}\n")
 
+def save_schedule_csv(solution, filename, runtime, algorithm="simulated_annealing", seed=42, termination="time_limit"):
+    base_dir=os.path.dirname(os.path.abspath(__file__))
+    results_dir=os.path.join(base_dir, "..", "results" )
+
+    if not os.path.exists(results_dir):
+        os.makedirs(results_dir)
+    
+    instance_name = filename.replace('.mm', '')
+    file_path = os.path.join(results_dir, f"schedule_{instance_name}.csv")
+
+    with open (file_path, "w", encoding='utf-8') as f:
+        f.write(f"# instance={instance_name}\n")
+        f.write(f"# runtime_seconds={runtime:.2f}\n")
+        f.write(f"# algorithm={algorithm}\n")
+        f.write(f"# seed={seed}\n")
+        f.write(f"# termination={termination}\n")
+        f.write(f"activity_id,mode,start_time\n")
+
+        sorted_jobs = sorted(solution.start_times.keys())
+
+        for job in sorted_jobs:
+            if job in solution.modes:
+                mode = solution.modes[job]
+                start = solution.start_times[job]
+                f.write(f"{job},{mode},{start}\n")
+
 def save_summary_file(results_list):
     base_dir = os.path.dirname(os.path.abspath(__file__))
     results_dir = os.path.join(base_dir, "..", "results")
