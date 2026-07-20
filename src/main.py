@@ -33,7 +33,7 @@ def main():
     print("\n--- A iniciar Otimização MRCPSP (Fase 1 e Fase 2) ---")
     lista_resultados = []
 
-    SA_TIME_LIMIT = 15
+    SA_TIME_LIMIT = 60
 
     for root, dirs, files in os.walk(input_dir):
         for filename in sorted(files):
