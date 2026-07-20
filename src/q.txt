@@ -76,17 +76,17 @@ def save_summary_file(results_list):
             f.write("-" * 80 + "\n")
             f.write(f"{'Média Global':<15}| {'-':<6}| {'-':<8}| {'-':<10}| {'-':<8}| {avg_rpd:<10.2f}| {'-':<10}\n")
 
-def save_bonus_summary_files(results_list):
+def save_bonus_summary_file(results_list):
     base_dir = os.path.dirname(os.path.abspath(__file__))
     results_dir = os.path.join(base_dir, "..", "results")
 
     if not os.path.exists(results_dir):
         os.makedirs(results_dir)
-    
+
     path = os.path.join(results_dir, "Summary_Bonus.txt")
 
     with open(path, "w", encoding='utf-8') as f:
-        f.write(f"{'Instance':<15} | {'Custo Total (Z)':<17} | {'Makespan (Cmax)':<17} | {'Custo Recurso Extra':<22} | {'Runtime (s)':<12}\n")
+        f.write(f"{'Instance':<15}| {'Custo Total (Z)':<17}| {'Makespan (Cmax)':<17}| {'Custo Recursos Extra':<22}| {'Runtime (s)':<12}\n")
         f.write("-" * 90 + "\n")
 
         for res in results_list:
