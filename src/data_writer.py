@@ -78,12 +78,12 @@ def save_summary_file(results_list):
 
 def save_bonus_summary_files(results_list):
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    results_dir = os.path.join(base_dir, "..", "results")
+    bonus_dir = os.path.join(base_dir, "..", "results", "Bonus")
 
-    if not os.path.exists(results_dir):
-        os.makedirs(results_dir)
+    #if not os.path.exists(results_dir):
+    os.makedirs(bonus_dir, exist_ok=True)
     
-    path = os.path.join(results_dir, "Summary_Bonus.txt")
+    path = os.path.join(bonus_dir, "Summary_Bonus.txt")
 
     with open(path, "w", encoding='utf-8') as f:
         f.write(f"{'Instance':<15} | {'Custo Total (Z)':<17} | {'Makespan (Cmax)':<17} | {'Custo Recurso Extra':<22} | {'Runtime (s)':<12}\n")

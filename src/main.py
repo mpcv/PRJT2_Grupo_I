@@ -3,7 +3,7 @@ import time
 import random
 from data_reader import Instance
 from lineup import ScheduleBuilder
-from data_writer import save_file_for_solution, save_summary_file, save_schedule_csv
+from data_writer import save_file_for_solution, save_summary_file, save_schedule_csv, save_bonus_summary_files
 from visualizer import generate_gantt_chart
 from tester import Tester
 from metaheuristic import SimulatedAnnealing
@@ -33,7 +33,7 @@ def main():
     print("\n--- A iniciar Otimização MRCPSP (Fase 1 e Fase 2) ---")
     lista_resultados = []
 
-    SA_TIME_LIMIT = 60
+    SA_TIME_LIMIT = 15
 
     for root, dirs, files in os.walk(input_dir):
         for filename in sorted(files):
@@ -139,22 +139,37 @@ def main():
                         termination=termination_reason
                     )
 
-                    lista_resultados.append({
-                        'Instance': filename,
-                        'BKS': bks if (bks is not None and not is_bonus) else "N/A",
-                        'Mk_P1': best_initial_sol.bonus_objective if is_bonus else best_initial_sol.makespan,
-                        'RPD_P1': f"{rpd_fase1:.2f}" if rpd_fase1 is not None else "N/A",
-                        'Mk_P2': metrica_final,
-                        'RPD_P2': f"{rpd_fase2:.2f}" if rpd_fase2 is not None else "N/A",
-                        'Runtime (s)': f"{temp_exec:.4f}"
-                    })
+                    if is_bonus:
+                        custo_extra = best_sa_sol.bonus_objective - best_sa_sol.makespan
+                        lista_resultados.append({
+                            'Instance': filename,
+                            'Total_Cost': best_sa_sol.bonus_objective,
+                            'Makespan': best_sa_sol.makespan,
+                            'Extra_Cost': custo_extra,
+                            'Runtime': f"{temp_exec:.4f}"
+                        })
+                    else:
+                        lista_resultados.append({
+                            'Instance': filename,
+                            'BKS': bks if (bks is not None and not is_bonus) else "N/A",
+                            'Mk_P1': best_initial_sol.bonus_objective if is_bonus else best_initial_sol.makespan,
+                            'RPD_P1': f"{rpd_fase1:.2f}" if rpd_fase1 is not None else "N/A",
+                            'Mk_P2': metrica_final,
+                            'RPD_P2': f"{rpd_fase2:.2f}" if rpd_fase2 is not None else "N/A",
+                            'Runtime (s)': f"{temp_exec:.4f}"
+                        })
                 else:
                     print("  -> [ERRO] A solução do SA violou restrições.")
     
-    save_summary_file(lista_resultados)
+    if is_bonus:
+        save_bonus_summary_files(lista_resultados)
+    else:
+        save_summary_file(lista_resultados)
+    
     print("\n--- Otimização Concluída. Resultados atualizados em 'results/'. ---")
     
-    gerar_grafico_empilhado()
+    if is_bonus:
+        gerar_grafico_empilhado()
 
 if __name__ == "__main__":
     main()

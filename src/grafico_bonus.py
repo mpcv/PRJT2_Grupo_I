@@ -3,15 +3,15 @@ import os
 import sys
 
 def gerar_grafico_empilhado():
-    caminho_raiz = os.path.join(os.getcwd(), "results", "Summary_Bonus.txt")
-    caminho_src = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "results", "Summary_Bonus.txt")
+    caminho_raiz = os.path.join(os.getcwd(), "results", "Bonus", "Summary_Bonus.txt")
+    caminho_src = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "results", "Bonus", "Summary_Bonus.txt")
 
     if os.path.exists(caminho_raiz):
         txt_path = caminho_raiz
-        target_dir = os.path.join(os.getcwd(), "results")
+        pasta_raiz_projeto= os.getcwd()
     elif os.path.exists(caminho_src):
         txt_path = caminho_src
-        target_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "results")
+        pasta_raiz_projeto = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
     else:
         print("Erro: O ficheiro Summary_Bonus.txt não foi encontrado.")
         print(f"Tentei procurar em:\n1: {caminho_raiz}\n2: {caminho_src}")
@@ -63,8 +63,11 @@ def gerar_grafico_empilhado():
     plt.xticks(rotation=15)
     plt.tight_layout()
 
+    target_dir_grafico = os.path.join(pasta_raiz_projeto, "Gantt_Charts", "TradeOffs")
+    os.makedirs(target_dir_grafico, exist_ok=True)
+
     #Guarda a imagem na pasta results
-    img_path = os.path.join(target_dir, "Grafico_Bonus_TradeOff.png")
+    img_path = os.path.join(target_dir_grafico, "Grafico_Bonus_TradeOff.png")
     plt.savefig(img_path, dpi=300)
 
     plt.close()
